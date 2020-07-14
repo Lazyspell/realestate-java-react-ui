@@ -5,5 +5,5 @@ export const realEstateClient = axios.create({
 	headers:{
 		'Content-Type': 'application/json'
 	}
-})
+});
 

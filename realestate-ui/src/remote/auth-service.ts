@@ -1,4 +1,4 @@
-import { realEstateClient } from "./realEstate-client";
+import { realEstateClient } from "./clients/realEstate-client";
 
 
 export async function userLogin(username: string, password: string){
