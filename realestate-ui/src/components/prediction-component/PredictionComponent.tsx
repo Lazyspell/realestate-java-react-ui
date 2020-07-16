@@ -74,10 +74,10 @@ const PredictionComponent = (props: PredictionProps) =>{
         }
     }
 
-    let predictionArray = [sqft, county, city, year_built, view, private_pool, bedrooms, bathrooms,attic, basement]
+    
     
     let getPredictionData = async ()=>{
-        let result = await getPrediction(predictionArray);
+        let result = await getPrediction([sqft, county, city, year_built, view, private_pool, bedrooms, bathrooms,attic, basement]);
         setPrediction(result);
 
     }  
@@ -427,7 +427,8 @@ const PredictionComponent = (props: PredictionProps) =>{
                     onClick = {getPredictionData}
                     variant = "contained"
                     color = "secondary"
-                    size = "medium">Submit</Button>
+                    size = "medium">Submit
+                </Button>
                 <br/>
             </form>
 
@@ -437,3 +438,5 @@ const PredictionComponent = (props: PredictionProps) =>{
         </Paper>
     )
 }
+
+export default PredictionComponent;
