@@ -8,6 +8,8 @@ import { store } from './Store';
 
 
 import InfoComponent from './components/info-component/InfoComponent';
+import { Prediction } from './models/Prediction';
+import PredictionComponent from './components/prediction-component/PredictionComponent';
 
 const theme = createMuiTheme({
 
@@ -35,6 +37,7 @@ function App(){
             </AppBar>
             <Switch>
               <Route path = '/info' render = {() => <InfoComponent />} />
+              <Route path = '/prediction' render = {() => <PredictionComponent />} />
             </Switch>
           </Router>
         </Provider>

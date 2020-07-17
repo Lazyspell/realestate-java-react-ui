@@ -8,8 +8,8 @@ export const predictionActionTypes = {
 	BAD_REQUEST: 'STORE_BAD_REQUEST'
 }
 
-export const predictionAction = (newArray: PredictionArray) => async (dispatch: Dispatch) =>{
-	try{
-		let prediction = await getPrediction()
-	}
-}
+// export const predictionAction = (newArray: PredictionArray) => async (dispatch: Dispatch) =>{
+// 	try{
+// 		let prediction = await getPrediction()
+// 	}
+// }

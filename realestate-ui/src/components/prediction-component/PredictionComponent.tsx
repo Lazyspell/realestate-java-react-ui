@@ -8,9 +8,10 @@ import {getPrediction} from '../../remote/prediction-service';
 import { PredictionArray } from '../../models/PredictionArray';
 import { Users } from '../../models/User';
 
+
 export interface PredictionProps{
-    authUser: Users | undefined;
-	errorMessage: string;
+    // authUser: Users | undefined;
+	// errorMessage: string;
 }
 
 const useStyles = makeStyles({
@@ -29,8 +30,8 @@ const useStyles = makeStyles({
 const PredictionComponent = (props: PredictionProps) =>{
     const classes = useStyles();
     const [prediction, setPrediction] = useState(0);
-    const [sqft, setSqft] = useState(0);
-    const [county, setCounty] = useState(0);
+    const [sqft, setSqft] = React.useState('');
+    const [county, setCounty] = React.useState('');
     const [city, setCity] = useState(0);
     const [year_built, setYearBuilt] = useState(0);
     const [view, setView] = useState(0);
@@ -39,58 +40,82 @@ const PredictionComponent = (props: PredictionProps) =>{
     const [bathrooms, setBathRooms] = useState(0);
     const [attic, setAttic] = useState(0);
     const [basement, setBasement] = useState(0);
+
+
+    // const handleClick = (e: any) => {
+    //     setCounty(e.currentTarget);
+    //   };
     
-    let updateFormField = (e: any)=>{
-        switch(e.target.id){
-            case 'sqft':
-                setSqft(e.target.value);
-                break;
-            case 'county':
-                setCounty(e.target.value);
-                break;
-            case 'city':
-                setCity(e.target.value);
-                break;
-            case 'year_built':
-                setYearBuilt(e.target.value);
-                break;
-            case 'view':
-                setView(e.target.value);
-                break;
-            case 'private_pool':
-                setYearBuilt(e.target.value);
-                break;
-            case 'bedrooms':
-                setBedRooms(e.target.value);
-                break;
-            case 'bathrooms':
-                setBathRooms(e.target.value);
-                break;
-            case 'attic': 
-                setAttic(e.target.value);
-                break;
-            case 'basement':
-                setBasement(e.target.value);
-        }
+    const handleSqft = (event: React.ChangeEvent<{value: unknown}>) => {
+        //@ts-ignore
+        setSqft(event.target.value);
+    }
+
+    
+    const handleCounty = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setCounty(event.target.value);
+    }
+
+    const handleCity = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setCity(event.target.value);
+    }
+
+    const handleYear = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setYearBuilt(event.target.value);
+    }
+
+    const handleView = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setView(event.target.value);
+    }
+
+    const handlePool = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setPrivatePool(event.target.value);
+    }
+
+
+    const handleBed = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setBedRooms(event.target.value);
+    }
+
+
+    const handleBath = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setBathRooms(event.target.value);
+    }
+
+    const handleAttic = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setAttic(event.target.value);
+    }
+
+    const handleBasement = (event: React.ChangeEvent<{value: unknown}>) =>{
+        //@ts-ignore
+        setBasement(event.target.value);
     }
 
     
     
-    let getPredictionData = async ()=>{
-        let result = await getPrediction([sqft, county, city, year_built, view, private_pool, bedrooms, bathrooms,attic, basement]);
+    let getPredictionData = async ()=>{ 
+        let result = await getPrediction([+sqft, +county, +city, +year_built, +view, +private_pool, +bedrooms, +bathrooms,attic, +basement]);
         setPrediction(result);
 
     }  
 
     return(
         <Paper className = {classes.predictionContainer}>
-            <form className={classes.registerForm}>
+            <FormControl className={classes.registerForm}>
                 <Typography align = "center" variant = "h4">Price Prediction</Typography>
 
                 <FormControl margin = "normal" fullWidth>
                     <InputLabel htmlFor = "sqft"> Sqft of House</InputLabel>
                     <Input 
-                        onChange = {updateFormField}
+                        onChange = {handleSqft}
                         value = {sqft}
                         id = "sqft" type = "number"
                         placeholder = "Enter Sqft of House" />
@@ -102,7 +127,9 @@ const PredictionComponent = (props: PredictionProps) =>{
                         labelId = "county-label"
                         id = "county"
                         value = {county}
-                        onChange = {updateFormField}>
+                        onChange = {handleCounty}>
+                            <MenuItem value=""><em>None</em></MenuItem>
+ 
                             <MenuItem value = {1}>Riverside</MenuItem>
                             <MenuItem value = {2}>Los Angeles</MenuItem>
                             <MenuItem value = {3}>Orange County</MenuItem>
@@ -115,7 +142,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                         labelId = "city-label"
                         id = "city"
                         value = {city}
-                        onChange = {updateFormField}>
+                        onChange = {handleCity}>
                             <MenuItem value = {82}>Acton</MenuItem>
                             <MenuItem value = {176}>Agoura Hills</MenuItem>
                             <MenuItem value = {124}>Agua Dulce</MenuItem>
@@ -356,7 +383,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                 <FormControl margin = "normal" fullWidth>
                     <InputLabel htmlFor = "YrBuilt"> Year House was Built</InputLabel>
                     <Input 
-                        onChange = {updateFormField}
+                        onChange = {handleYear}
                         value = {year_built}
                         id = "yearBuilt" type = "number"
                         placeholder = "Year" />
@@ -368,7 +395,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                         labelId = "view-label"
                         id = "view"
                         value = {view}
-                        onChange = {updateFormField}>
+                        onChange = {handleView}>
                             <MenuItem value = {0}>No</MenuItem>
                             <MenuItem value = {1}>Yes</MenuItem>
                     </Select>
@@ -380,7 +407,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                         labelId = "private_pool-label"
                         id = "privatePool"
                         value = {private_pool}
-                        onChange = {updateFormField}>
+                        onChange = {handlePool}>
                             <MenuItem value = {0}>No</MenuItem>
                             <MenuItem value = {1}>Yes</MenuItem>
                     </Select>
@@ -389,7 +416,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                 <FormControl margin = "normal" fullWidth>
                     <InputLabel htmlFor = "Bedrooms"> Bedrooms</InputLabel>
                     <Input 
-                        onChange = {updateFormField}
+                        onChange = {handleBed}
                         value = {bedrooms}
                         id = "beds" type = "number"
                         placeholder = "Number of Bedrooms" />
@@ -398,7 +425,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                 <FormControl margin = "normal" fullWidth>
                     <InputLabel htmlFor = "YrBuilt"> Bathrooms </InputLabel>
                     <Input 
-                        onChange = {updateFormField}
+                        onChange = {handleBath}
                         value = {bathrooms}
                         id = "bathrooms" type = "number"
                         placeholder = "Number of Bathrooms" />
@@ -407,7 +434,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                 <FormControl margin = "normal" fullWidth>
                     <InputLabel htmlFor = "Attic"> Attics </InputLabel>
                     <Input 
-                        onChange = {updateFormField}
+                        onChange = {handleAttic}
                         value = {attic}
                         id = "attic" type = "number"
                         placeholder = "Number of Attics" />
@@ -416,7 +443,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                 <FormControl margin = "normal" fullWidth>
                     <InputLabel htmlFor = "Basement"> Basement </InputLabel>
                     <Input 
-                        onChange = {updateFormField}
+                        onChange = {handleBasement}
                         value = {basement}
                         id = "basement" type = "number"
                         placeholder = "Number of Basement" />
@@ -430,7 +457,7 @@ const PredictionComponent = (props: PredictionProps) =>{
                     size = "medium">Submit
                 </Button>
                 <br/>
-            </form>
+            </FormControl>
 
             <div>
                Price Predicted: {prediction}
