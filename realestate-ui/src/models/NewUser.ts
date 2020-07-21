@@ -4,6 +4,7 @@ export class NewUser{
 	email: string;
 	username: string;
 	password: string;
+	role: string
 
 
 	constructor(
@@ -11,12 +12,14 @@ export class NewUser{
 		ln: string,
 		email: string,
 		un: string,
-		pw: string)
+		pw: string,
+		role: string)
 	{
 		this.first_name = fn;
 		this.last_name = ln;
 		this.email = email;
 		this.username = un;
 		this.password = pw;
+		this.role = role;
 	}
 }

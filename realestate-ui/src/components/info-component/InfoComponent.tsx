@@ -1,4 +1,4 @@
- import { Users } from "../../models/User";
+import { Users } from "../../models/User";
 import { makeStyles, Select, MenuItem, Grid, Typography, Button, Card } from '@material-ui/core';
 import { City } from "../../models/City";
 import { County } from "../../models/County";
@@ -7,8 +7,6 @@ import { House } from "../../models/House";
 import { Link } from 'react-router-dom';
 import MaterialTable from 'material-table';
 
-
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 import { getAllCites } from "../../remote/city-service";
 import React from "react";
 
