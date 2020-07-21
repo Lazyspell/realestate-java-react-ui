@@ -1,76 +1,52 @@
 import {userLogin} from '../remote/auth-service';
 import {Users} from '../models/User';
+import { Dispatch } from "redux";
 
-export const loginTypes = {
+
+export const loginActionTypes = {
 	SUCCESSFUL_LOGIN: 'REI_APP_SUCCESSFUL_LOGIN',
-    BAD_REQUEST: 'REI_APP_BAD_REQUEST',
+	BAD_REQUEST: 'REI_APP_BAD_REQUEST',
+	AUTHORIZATION_ERROR: 'REI_APP_AUTHORIZATION_ERROR',
     INVALID_CREDENTIALS: 'REI_APP_INVALID_CREDENTIALS',
     INTERNAL_SERVER_ERROR: 'REI_APP_INTERNAL_SERVER_ERROR',
-    SUCCESSFUL_LOGOUT: 'REI_APP_SUCCESSFUL_LOGOUT'
 }
 
-export const login = (username: string, password: string, action: string) => async (dispatch: any) =>{
-	// Use this commented block to skip login:
+export const loginAction = (username: string, password: string) => async (dispatch: Dispatch) => {
+    
+    try {
+        //Missing Authenticate remote to connect to API
+        let authUser = await userLogin(username, password);
+        dispatch({
+            type: loginActionTypes.SUCCESSFUL_LOGIN,
+            payload: authUser
+        });
 
-    // let currentUser = new AppUser(1, "test", "password", 1, ['Admin']);
+    } catch (e) {
 
-    // if (action == "login") {
-    //     console.log(currentUser);
-    //     dispatch({
-    //         type: loginTypes.SUCCESSFUL_LOGIN,
-    //         payload: {
-    //             currentUser: currentUser,
-    //             loginMessage: ""
-    //         }
-    //     });
-    // } else if (action = "logout") {
-    //     dispatch({
-    //         type: loginTypes.SUCCESSFUL_LOGOUT,
-    //         payload: {
-    //             currentUser: null,
-    //             loginMessage: ""
-    //         }
-    //     });
-    //     window.location.reload(true);
-	// }
-	
-	try{
-		if(action == "login"){
-			let authUser = await userLogin(username, password);
-			dispatch({
-				type: loginTypes.SUCCESSFUL_LOGIN,
-				payload: {
-					currentUser: authUser,
-					loginMessage: ""
-				}
-			});
-		} else if(action = "logout"){
-			dispatch({
-				type: loginTypes.SUCCESSFUL_LOGOUT,
-				payload:{
-					currentUser: null,
-					loginMessage: ""
-				}
-			});
-		}
-	} catch(e){
-		let status = e.response?.status;
-		if(status === 400){
-			dispatch({
-				type: loginTypes.BAD_REQUEST,
-				payload: e.response?.data.message
-			});
-		} else if(status === 401){
-			dispatch({
-				type: loginTypes.INVALID_CREDENTIALS,
-				payload: e.response?.data.message
-			});
-		} else{
-			dispatch({
-				type: loginTypes.INTERNAL_SERVER_ERROR,
-				payload: e.response?.data.message || 'Error: Server could not be reached'
-			});
-		}
-	}
+        let status = e.response.status;
+        if (status === 400) {
+            dispatch({
+                type: loginActionTypes.BAD_REQUEST,
+                payload: e.response.data.message
+            });
+        } else if (status === 401) {
+            dispatch({
+                type: loginActionTypes.INVALID_CREDENTIALS,
+                payload: e.response.data.message
+            });
+        } else if (status === 403) {
+            dispatch({
+                type: loginActionTypes.AUTHORIZATION_ERROR,
+                payload: e.response.data.message
+            });
+        } else {
+            dispatch({
+                type: loginActionTypes.INTERNAL_SERVER_ERROR,
+                payload: e.response.data.message || 'Internal Server Error, connection failed!'
+            });
+        }
+
+    }
+
 }
 

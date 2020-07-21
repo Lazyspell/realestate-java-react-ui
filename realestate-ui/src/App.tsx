@@ -10,6 +10,7 @@ import { store } from './Store';
 import InfoComponent from './components/info-component/InfoComponent';
 import { Prediction } from './models/Prediction';
 import PredictionComponent from './components/prediction-component/PredictionComponent';
+import  LoginComponent  from './components/login-component/LoginContainer';
 
 const theme = createMuiTheme({
 
@@ -38,6 +39,7 @@ function App(){
             <Switch>
               <Route path = '/info' render = {() => <InfoComponent />} />
               <Route path = '/prediction' render = {() => <PredictionComponent />} />
+              <Route path = '/login' render = {()=> <LoginComponent />} />
             </Switch>
           </Router>
         </Provider>

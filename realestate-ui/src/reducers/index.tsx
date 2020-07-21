@@ -4,32 +4,28 @@ import {County} from '../models/County';
 import {House} from '../models/House';
 import {NewUser} from '../models/NewUser';
 import {Users} from '../models/User';
-import { userReducer } from './login-reducer';
-
-export interface IHomeState {
-    currentUser: Users,
-    loggedIn: boolean,
-    loginMessage: string
-}
-
-export interface IState {
-    userState: ILoginState,
-    homeState: IHomeState
-}
+import { loginReducer} from './login-reducer'
+import { registerReducer } from "./register-reducer";
 
 export interface ILoginState {
-    currentUser: Users,
-    loggedIn: boolean,
-    loginMessage: string
+    authUser: Users;
+    errorMessage:string;
 }
 
-export interface ILogoutState {
-    currentUser: Users,
-    loggedIn: boolean,
-    loginMessage: string
+export interface IRegisterState {
+    newUser: NewUser;
+    errorMessage:string;
+
 }
 
-export const state = combineReducers<IState>({
-	userState: userReducer,
-    homeState: userReducer
-})
+
+export interface IState{
+    login: ILoginState;
+    register: IRegisterState;
+}
+
+
+export const state = combineReducers<IState>({ 
+    register: registerReducer,
+    login: loginReducer
+});

@@ -1,42 +1,43 @@
 import {ILoginState} from '.';
-import {loginTypes} from '../actions/login-action';
+import {loginActionTypes} from '../actions/login-action';
+import { logoutActionTypes } from "../actions/logout-action";
 import {Users} from '../models/User';
 import { stat } from 'fs';
+import { AnyAction } from 'redux';
 
 
-const initialState: ILoginState = { 
-	//@ts-ignore
-	currentUser: null as Users,
-	loggedIn: false,
-	loginMessage: ''
+const initialState: ILoginState = {
+    // @ts-ignore
+    authUser: (null as User),
+    errorMessage: ''
 }
 
-export const userReducer = (state = initialState, action: any) =>{
-	switch(action.type){
-		case loginTypes.SUCCESSFUL_LOGIN:
-			return {
-				...state,
-				currentUser: action.payload.currentUser,
-				loggedIn: true,
-				loginMessage: 'Login Successfully. Proceeding ....'
-			}
+export const loginReducer = (state: ILoginState = initialState, action: AnyAction) => {
 
-			case loginTypes.SUCCESSFUL_LOGOUT:
-				return {
-					...state, loggedIn: false,
-					currentUser: action.payload.currentUser,
-					loginMessage: ''
-				}
-			
-				case loginTypes.INVALID_CREDENTIALS:
-				case loginTypes.BAD_REQUEST:
-				case loginTypes.INTERNAL_SERVER_ERROR:
-					return {
-						...state,
-						loginMessage: action.payload
-					}
+    switch (action.type) {
+        case loginActionTypes.SUCCESSFUL_LOGIN:
+            return {
+                ...state,
+                authUser: action.payload
+            }
+        case logoutActionTypes.SUCCESSFUL_LOGOUT:
+            return {
+                ...state,
+                //@ts-ignore
+                authUser: null as User
+            }
+        case loginActionTypes.INVALID_CREDENTIALS:
+        case loginActionTypes.AUTHORIZATION_ERROR:
+        case loginActionTypes.BAD_REQUEST:
+        case loginActionTypes.INTERNAL_SERVER_ERROR:
+            return {
+                ...state,
+                errorMessage: action.payload
+            }
 
-				default: 
-					return state;
-	}
+        default:
+            return state;
+
+    }
+
 }
