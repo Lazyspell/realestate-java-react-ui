@@ -12,3 +12,11 @@ export async function getAllUsers(){
 	let response = await realEstateClient.get('/users');
 	return await response.data;
 }
+
+export async function getUserById(id: number){
+	let response = await realEstateClient.get(`/users/id?value=${id}`)
+	console.log(response);
+	
+	return await response.data;
+}
+

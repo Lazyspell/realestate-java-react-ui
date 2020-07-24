@@ -13,6 +13,7 @@ import PredictionComponent from './components/prediction-component/PredictionCom
 import  LoginComponent  from './components/login-component/LoginContainer';
 import RegisterComponent from './components/register-component/RegisterContainer';
 import UserComponent from './components/user-component/UserComponent';
+import { UserDetailsComponent } from './components/user-detail-component/UserDetailsComponent';
 
 const theme = createMuiTheme({
 
@@ -39,6 +40,7 @@ function App(){
               </Toolbar>
             </AppBar>
             <Switch>
+              <Route path = '/users/:id' component = {UserDetailsComponent}/>
               <Route path = '/register' render = {() => <RegisterComponent />} />
               <Route path = '/users' render = {() =><UserComponent/>}/>
               <Route path = '/info' render = {() => <InfoComponent />} />
